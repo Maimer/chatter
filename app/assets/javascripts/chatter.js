@@ -25,7 +25,9 @@ Chat.User = (function() {
 Chat.Controller = (function() {
   Controller.prototype.template = function(message) {
     var html;
-    html = "<div class=\"message\" >\n  <label class=\"label label-info\">\n    [" + message.received + "] " + message.user_name + "\n  </label>&nbsp;\n  " + message.msg_body + "\n</div>";
+    html = "<div class=\"message\"><label class=\"...\">[" +
+           message.received + "] " + message.user_name + ":&nbsp;</label>" +
+           message.message_body + "</div>";
     return $(html);
   };
 
@@ -56,7 +58,7 @@ Chat.Controller = (function() {
   Controller.prototype.bindEvents = function() {
     this.dispatcher.bind('new_message', this.newMessage);
     this.dispatcher.bind('user_list', this.updateUserList);
-    $('input#user_name').on('keyup', this.updateUserInfo);
+    $('input#user_name').on('focusout', this.updateUserInfo);
     $('#send').on('click', this.sendMessage);
     return $('#message').keypress(function(e) {
       if (e.keyCode === 13) {
@@ -79,7 +81,7 @@ Chat.Controller = (function() {
     message = $('#message').val();
     this.dispatcher.trigger('new_message', {
       user_name: this.user.user_name,
-      msg_body: message
+      message_body: message
     });
     return $('#message').val('');
   };
@@ -111,7 +113,7 @@ Chat.Controller = (function() {
   Controller.prototype.createGuestUser = function() {
     var rand_num;
     rand_num = Math.floor(Math.random() * 1000);
-    this.user = new Chat.User("Guest_" + rand_num);
+    this.user = new Chat.User("Chatter_" + rand_num);
     $('#username').html(this.user.user_name);
     $('input#user_name').val(this.user.user_name);
     return this.dispatcher.trigger('new_user', this.user.serialize());
