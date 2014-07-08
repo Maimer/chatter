@@ -6,7 +6,11 @@ $(document).ready(function() {
   }
 
   dispatcher.bind('new_message', function(data) {
-    $('#chat').append(data.message_body);
+    var html;
+    html = "<div class=\"message\"><label class=\"...\">[" +
+           data.received + "] " + data.user_name + ":&nbsp;</label>" +
+           data.message_body + "</div>";
+    $('#chat').append(html);
   });
 
   $('#input-message').on('submit', function(event) {
@@ -14,21 +18,12 @@ $(document).ready(function() {
     var message = $('#message').val();
 
     dispatcher.trigger('new_message', {
-      user_name: 'nick',
       message_body: message
     });
 
     $('message').val('');
   });
 
-  //     var message;
-//     event.preventDefault();
-//     message = $('#message').val();
-//     this.dispatcher.trigger('new_message', {
-//       user_name: this.user.user_name,
-//       message_body: message
-//     });
-//     return $('#message').val('');
 });
 
 
