@@ -1,10 +1,17 @@
 <div>
-  <form>
-    <input type="text" id="user_name">
-    <input type="text" id="message">
-    <button id="send">Send!</button>
-  </form>
+  <div>
+    <form id="input-message">
+      <input type="text" id="user_name">
+      <input type="text" id="message">
+      <button id="send">Send!</button>
+    </form>
+  </div>
+
+  <div id="chat" data-uri="<%= request.host %>:<%= request.port %>/websocket">
+  </div>
 </div>
 
-<div id="chat" data-uri="<%= request.host %>:<%= request.port %>/websocket">
+<div>
+  <ul id="user-list">
+  </ul>
 </div>

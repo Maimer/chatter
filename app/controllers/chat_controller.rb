@@ -14,15 +14,17 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def user_message(event, message)
+    puts "received a user message: #{message}"
+    binding.pry
     broadcast_message event, {
-      user_name: connection_store[:user][:user_name],
-      received: Time.now.to_s(:short),
+      # user_name: connection_store[:user][:user_name],
+      # received: Time.now.to_s(:short),
       message_body: ERB::Util.html_escape(message)
-      }
+    }
   end
 
   def client_connected
-
+    puts "hello"
   end
 
   def new_message

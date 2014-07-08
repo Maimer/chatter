@@ -1,124 +1,161 @@
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+$(document).ready(function() {
+  var dispatcher = new WebSocketRails('localhost:3000/websocket');
 
-jQuery(function() {
-  return window.chatController = new Chat.Controller($('#chat').data('uri'), true);
-});
-
-window.Chat = {};
-
-Chat.User = (function() {
-  function User(user_name) {
-    this.user_name = user_name;
-    this.serialize = __bind(this.serialize, this);
+  dispatcher.on_open = function(data) {
+    console.log('connected');
   }
 
-  User.prototype.serialize = function() {
-    return {
-      user_name: this.user_name
-    };
-  };
+  dispatcher.bind('new_message', function(data) {
+    $('#chat').append(data.message_body);
+  });
 
-  return User;
-
-})();
-
-Chat.Controller = (function() {
-  Controller.prototype.template = function(message) {
-    var html;
-    html = "<div class=\"message\"><label class=\"...\">[" +
-           message.received + "] " + message.user_name + ":&nbsp;</label>" +
-           message.message_body + "</div>";
-    return $(html);
-  };
-
-  Controller.prototype.userListTemplate = function(userList) {
-    var user, userHtml, _i, _len;
-    userHtml = "";
-    for (_i = 0, _len = userList.length; _i < _len; _i++) {
-      user = userList[_i];
-      userHtml = userHtml + ("<li>" + user.user_name + "</li>");
-    }
-    return $(userHtml);
-  };
-
-  function Controller(url, useWebSockets) {
-    this.createGuestUser = __bind(this.createGuestUser, this);
-    this.shiftMessageQueue = __bind(this.shiftMessageQueue, this);
-    this.updateUserInfo = __bind(this.updateUserInfo, this);
-    this.updateUserList = __bind(this.updateUserList, this);
-    this.sendMessage = __bind(this.sendMessage, this);
-    this.newMessage = __bind(this.newMessage, this);
-    this.bindEvents = __bind(this.bindEvents, this);
-    this.messageQueue = [];
-    this.dispatcher = new WebSocketRails(url, useWebSockets);
-    this.dispatcher.on_open = this.createGuestUser;
-    this.bindEvents();
-  }
-
-  Controller.prototype.bindEvents = function() {
-    this.dispatcher.bind('new_message', this.newMessage);
-    this.dispatcher.bind('user_list', this.updateUserList);
-    $('input#user_name').on('focusout', this.updateUserInfo);
-    $('#send').on('click', this.sendMessage);
-    return $('#message').keypress(function(e) {
-      if (e.keyCode === 13) {
-        return $('#send').click();
-      }
-    });
-  };
-
-  Controller.prototype.newMessage = function(message) {
-    this.messageQueue.push(message);
-    if (this.messageQueue.length > 15) {
-      this.shiftMessageQueue();
-    }
-    return this.appendMessage(message);
-  };
-
-  Controller.prototype.sendMessage = function(event) {
-    var message;
+  $('#input-message').on('submit', function(event) {
     event.preventDefault();
-    message = $('#message').val();
-    this.dispatcher.trigger('new_message', {
-      user_name: this.user.user_name,
+    var message = $('#message').val();
+
+    dispatcher.trigger('new_message', {
+      user_name: 'nick',
       message_body: message
     });
-    return $('#message').val('');
-  };
 
-  Controller.prototype.updateUserList = function(userList) {
-    return $('#user-list').html(this.userListTemplate(userList));
-  };
+    $('message').val('');
+  });
 
-  Controller.prototype.updateUserInfo = function(event) {
-    this.user.user_name = $('input#user_name').val();
-    $('#username').html(this.user.user_name);
-    return this.dispatcher.trigger('change_username', this.user.serialize());
-  };
+  //     var message;
+//     event.preventDefault();
+//     message = $('#message').val();
+//     this.dispatcher.trigger('new_message', {
+//       user_name: this.user.user_name,
+//       message_body: message
+//     });
+//     return $('#message').val('');
+});
 
-  Controller.prototype.appendMessage = function(message) {
-    var messageTemplate;
-    messageTemplate = this.template(message);
-    $('#chat').append(messageTemplate);
-    return messageTemplate.slideDown(140);
-  };
 
-  Controller.prototype.shiftMessageQueue = function() {
-    this.messageQueue.shift();
-    return $('#chat div.messages:first').slideDown(100, function() {
-      return $(this).remove();
-    });
-  };
+// var _bind = function(fn, me){
+//   return function(){
+//     return fn.apply(me, arguments);
+//   };
+// };
 
-  Controller.prototype.createGuestUser = function() {
-    var rand_num;
-    rand_num = Math.floor(Math.random() * 1000);
-    this.user = new Chat.User("Chatter_" + rand_num);
-    $('#username').html(this.user.user_name);
-    $('input#user_name').val(this.user.user_name);
-    return this.dispatcher.trigger('new_user', this.user.serialize());
-  };
+// jQuery(function() {
+//   return window.chatController = new Chat.Controller($('#chat').data('uri'), true);
+// });
 
-  return Controller;
+// window.Chat = {};
 
-})();
+// Chat.User = (function() {
+//   function User(user_name) {
+//     this.user_name = user_name;
+//     this.serialize = _bind(this.serialize, this);
+//   }
+
+//   User.prototype.serialize = function() {
+//     return {
+//       user_name: this.user_name
+//     };
+//   };
+
+//   return User;
+
+// })();
+
+// Chat.Controller = (function() {
+//   Controller.prototype.template = function(message) {
+//     var html;
+//     html = "<div class=\"message\"><label class=\"...\">[" +
+//            message.received + "] " + message.user_name + ":&nbsp;</label>" +
+//            message.message_body + "</div>";
+//     return $(html);
+//   };
+
+//   Controller.prototype.userListTemplate = function(userList) {
+//     var user, userHtml, i, len;
+//     userHtml = "";
+//     for (i = 0, len = userList.length; i < len; i++) {
+//       user = userList[i];
+//       userHtml = userHtml + ("<li>" + user.user_name + "</li>");
+//     }
+//     return $(userHtml);
+//   };
+
+//   function Controller(url, useWebSockets) {
+//     debugger;
+//     this.createGuestUser = function() {
+//       return this.createGuestUser.apply(this, arguments);
+//     };
+
+//     // _bind(this.createGuestUser, this);
+//     this.shiftMessageQueue = _bind(this.shiftMessageQueue, this);
+//     this.updateUserInfo = _bind(this.updateUserInfo, this);
+//     this.updateUserList = _bind(this.updateUserList, this);
+//     this.sendMessage = _bind(this.sendMessage, this);
+//     this.newMessage = _bind(this.newMessage, this);
+//     this.bindEvents = _bind(this.bindEvents, this);
+//     this.messageQueue = [];
+//     this.dispatcher = new WebSocketRails(url, useWebSockets);
+//     this.dispatcher.on_open = this.createGuestUser;
+//     this.bindEvents();
+//   }
+
+//   Controller.prototype.bindEvents = function() {
+//     this.dispatcher.bind('new_message', this.newMessage);
+//     this.dispatcher.bind('user_list', this.updateUserList);
+//     $('input#user_name').on('focusout', this.updateUserInfo);
+//     $('#send').on('click', this.sendMessage);
+//   };
+
+//   Controller.prototype.newMessage = function(message) {
+//     this.messageQueue.push(message);
+//     if (this.messageQueue.length > 15) {
+//       this.shiftMessageQueue();
+//     }
+//     return this.appendMessage(message);
+//   };
+
+//   Controller.prototype.sendMessage = function(event) {
+//     var message;
+//     event.preventDefault();
+//     message = $('#message').val();
+//     this.dispatcher.trigger('new_message', {
+//       user_name: this.user.user_name,
+//       message_body: message
+//     });
+//     return $('#message').val('');
+//   };
+
+//   Controller.prototype.appendMessage = function(message) {
+//     var messageTemplate;
+//     messageTemplate = this.template(message);
+//     $('#chat').append(messageTemplate);
+//     return messageTemplate.slideDown(140);
+//   };
+
+//   Controller.prototype.shiftMessageQueue = function() {
+//     this.messageQueue.shift();
+//     return $('#chat div.messages:first').slideDown(100, function() {
+//       return $(this).remove();
+//     });
+//   };
+
+//   Controller.prototype.updateUserList = function(userList) {
+//     return $('#user-list').html(this.userListTemplate(userList));
+//   };
+
+//   Controller.prototype.updateUserInfo = function(event) {
+//     this.user.user_name = $('input#user_name').val();
+//     $('#username').html(this.user.user_name);
+//     return this.dispatcher.trigger('change_username', this.user.serialize());
+//   };
+
+//   Controller.prototype.createGuestUser = function() {
+//     var rand_num;
+//     rand_num = Math.floor(Math.random() * 1000);
+//     this.user = new Chat.User("Chatter_" + rand_num);
+//     $('input#user_name').val(this.user.user_name);
+//     return this.dispatcher.trigger('new_user', this.user.serialize());
+//   };
+
+//   return Controller;
+
+// })();
