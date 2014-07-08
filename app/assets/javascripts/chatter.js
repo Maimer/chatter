@@ -11,7 +11,7 @@ $(document).ready(function() {
            data.received + "] " + data.user_name + ":&nbsp;</label>" +
            data.message_body + "</div>";
     $('#chat').append(html);
-    // $('#chat .message-text:last').scrollIntoView(false);
+    $('#chat .message-text:last')[0].scrollIntoView(false);
   });
 
   dispatcher.bind('user_list', function(data) {
@@ -24,6 +24,7 @@ $(document).ready(function() {
       user.handle + "</label></div>");
     }
     $('#user-list').html(userHtml);
+    $('#user-heading').html('Users (' + data.length + ')');
   });
 
   $('#input-message').on('submit', function(event) {
