@@ -2,6 +2,7 @@ class ChatController < WebsocketRails::BaseController
   include ActionView::Helpers::SanitizeHelper
 
   def initialize_session
+
   end
 
   def system_message(event, message)
@@ -13,9 +14,8 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def user_message(event, message)
-    puts "got a message from #{current_user.email}"
+    puts "got a message from #{current_user.handle}"
 
-    puts connection.data_store
     broadcast_message event, {
       user_name: current_user.handle,
       received: Time.now.to_s(:short),
@@ -24,27 +24,17 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def client_connected
+    connection_store[:user] = { handle: current_user.handle }
+    system_message :new_message, "#{connection_store[:user][:handle]} connected"
+    broadcast_user_list
   end
 
   def new_message
     user_message :new_message, message[:message_body].dup
   end
 
-  def new_user
-    connection_store[:user] = { user_name: sanitize(message[:user_name]) }
-    system_message :new_message, "#{connection_store[:user][:user_name]} connected"
-    broadcast_user_list
-  end
-
-  def change_username
-    old_user_name = connection_store[:user][:user_name]
-    connection_store[:user][:user_name] = sanitize(message[:user_name])
-    system_message :new_message, "#{old_user_name} is now known as #{connection_store[:user][:user_name]}"
-    broadcast_user_list
-  end
-
   def delete_user
-    system_msg "#{connection_store[:user][:user_name]} disconnected"
+    system_msg "#{connection_store[:user][:handle]} disconnected"
     connection_store[:user] = nil
     broadcast_user_list
   end

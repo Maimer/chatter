@@ -5,12 +5,24 @@ $(document).ready(function() {
     console.log('connected');
   }
 
+  dispatcher
+
   dispatcher.bind('new_message', function(data) {
     var html;
     html = "<div class=\"message\"><label class=\"...\">[" +
            data.received + "] " + data.user_name + ":&nbsp;</label>" +
            data.message_body + "</div>";
     $('#chat').append(html);
+  });
+
+  dispatcher.bind('user_list', function(data) {
+    var user, userHtml, i;
+    userHtml = "";
+    for (i = 0; i < data.length; i++) {
+      user = data[i];
+      userHtml = userHtml + ("<li>" + user.handle + "</li>");
+    }
+    $('#user-list').html(userHtml);
   });
 
   $('#input-message').on('submit', function(event) {
@@ -23,7 +35,6 @@ $(document).ready(function() {
 
     $('message').val('');
   });
-
 });
 
 
