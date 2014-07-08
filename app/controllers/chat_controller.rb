@@ -34,13 +34,16 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def delete_user
-    system_msg "#{connection_store[:user][:handle]} disconnected"
+    puts "disconnected"
+    # binding.pry
+    system_message "#{connection_store[:user][:handle]} disconnected"
     connection_store[:user] = nil
     broadcast_user_list
   end
 
   def broadcast_user_list
     users = connection_store.collect_all(:user)
+    puts users
     broadcast_message :user_list, users
   end
 end

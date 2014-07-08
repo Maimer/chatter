@@ -5,11 +5,9 @@ $(document).ready(function() {
     console.log('connected');
   }
 
-  dispatcher
-
   dispatcher.bind('new_message', function(data) {
     var html;
-    html = "<div class=\"message\"><label class=\"...\">[" +
+    html = "<div class=\"...\"><label class=\"...\">[" +
            data.received + "] " + data.user_name + ":&nbsp;</label>" +
            data.message_body + "</div>";
     $('#chat').append(html);
@@ -20,20 +18,22 @@ $(document).ready(function() {
     userHtml = "";
     for (i = 0; i < data.length; i++) {
       user = data[i];
-      userHtml = userHtml + ("<li>" + user.handle + "</li>");
+      userHtml = userHtml + ("<div class=\"message-text\"><label>" + user.handle +
+      "</label></div>");
     }
     $('#user-list').html(userHtml);
+    $('.message-text:last').scrollIntoView(false);
   });
 
   $('#input-message').on('submit', function(event) {
     event.preventDefault();
     var message = $('#message').val();
-
-    dispatcher.trigger('new_message', {
-      message_body: message
-    });
-
-    $('message').val('');
+    if (message != "") {
+      dispatcher.trigger('new_message', {
+        message_body: message
+      });
+    }
+    $('#message').val('');
   });
 });
 
