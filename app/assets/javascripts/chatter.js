@@ -1,16 +1,17 @@
 $(document).ready(function() {
-  var dispatcher = new WebSocketRails('localhost:3000/websocket');
+  var dispatcher = new WebSocketRails($('#chat').data('uri'));
 
   dispatcher.on_open = function(data) {
     console.log('connected');
-  }
+  };
 
   dispatcher.bind('new_message', function(data) {
     var html;
-    html = "<div class=\"...\"><label class=\"...\">[" +
+    html = "<div class=\"message-text\"><label>[" +
            data.received + "] " + data.user_name + ":&nbsp;</label>" +
            data.message_body + "</div>";
     $('#chat').append(html);
+    // $('#chat .message-text:last').scrollIntoView(false);
   });
 
   dispatcher.bind('user_list', function(data) {
@@ -18,11 +19,11 @@ $(document).ready(function() {
     userHtml = "";
     for (i = 0; i < data.length; i++) {
       user = data[i];
-      userHtml = userHtml + ("<div class=\"message-text\"><label>" + user.handle +
-      "</label></div>");
+      userHtml = userHtml +
+      ("<div class=\"user-text\"><label>" +
+      user.handle + "</label></div>");
     }
     $('#user-list').html(userHtml);
-    $('.message-text:last').scrollIntoView(false);
   });
 
   $('#input-message').on('submit', function(event) {
