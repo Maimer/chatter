@@ -20,7 +20,7 @@ $(document).ready(function() {
     for (i = 0; i < data.length; i++) {
       user = data[i];
       userHtml = userHtml +
-      ("<div class=\"user-text\"><label>" +
+      ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
       user.handle + "</label></div>");
     }
     $('#user-list').html(userHtml);

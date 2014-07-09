@@ -31,6 +31,7 @@ gem 'simple_form'
 
 gem 'thin'
 gem 'websocket-rails'
+gem 'font-awesome-rails'
 
 group :development, :test do
   gem 'factory_girl_rails'
