@@ -8,7 +8,7 @@ $(document).ready(function() {
     create_channel('General');
   };
 
-  function content(data) {
+  function message_content(data) {
     var html, label;
     if (data.user_name == "Server") {
       label = "info";
@@ -20,22 +20,21 @@ $(document).ready(function() {
            "</span></h4>&nbsp;" + data.message_body + "</div>";
     $('#chat').append(html);
     $('#chat .message-text:last')[0].scrollIntoView(false);
-  }
+  };
 
-  dispatcher.bind('system_wide_message', content);
+  dispatcher.bind('system_wide_message', message_content);
 
-  dispatcher.bind('user_list', function(data) {
-    var user, userHtml, i;
+  function user_list_content(data) {
+    var userHtml;
     userHtml = "";
     for (i = 0; i < data.length; i++) {
-      user = data[i];
       userHtml = userHtml +
       ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
-      user.handle + "</label></div>");
+      data[i] + "</label></div>");
     }
     $('#user-list').html(userHtml);
     $('#user-heading').html('Users (' + data.length + ')');
-  });
+  };
 
   $('#input-message').on('submit', function(event) {
     event.preventDefault();
@@ -54,8 +53,8 @@ $(document).ready(function() {
 
   function create_channel(channelName) {
     rooms[channelName] = dispatcher.subscribe(channelName);
-    rooms[channelName].bind('new_message', content);
-    rooms[channelName].bind
+    rooms[channelName].bind('new_message', message_content);
+    rooms[channelName].bind('user_list', user_list_content);
     dispatcher.trigger('new_channel_message', {
       channel_name: channelName,
       user_action: "joined"

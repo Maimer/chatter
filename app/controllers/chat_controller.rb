@@ -41,20 +41,20 @@ class ChatController < WebsocketRails::BaseController
   def new_channel_message
     channel_message(:new_message, message[:channel_name].dup, message[:user_action].dup)
     connection_store[:channels] << message[:channel_name]
-    broadcast_user_list
+    broadcast_user_list(message[:channel_name])
   end
 
   def delete_user
-    binding.pry
     user_channels = []
     connection_store[:channels].each do |channel|
       user_channels << channel
+      channel_message(:new_message, channel, "has left")
     end
-    channel_message(:new_message, channel, "has left")
     connection_store[:user] = nil
     user_channels.each do |channel|
       broadcast_user_list(channel)
     end
+    binding.pry
   end
 
   def broadcast_user_list(channel)
