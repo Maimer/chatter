@@ -1,0 +1,22 @@
+h4 {
+  display: inline;
+}
+
+.message-text {
+  margin-top: 5px;
+}
+
+.chat-panel {
+  height: 560px;
+  overflow-y: auto;
+}
+
+.user-panel {
+  height: 250px;
+  overflow-y: auto;
+}
+
+.room-panel {
+  height: 250px;
+  overflow-y: auto;
+}

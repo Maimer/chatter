@@ -6,10 +6,15 @@ $(document).ready(function() {
   };
 
   dispatcher.bind('new_message', function(data) {
-    var html;
-    html = "<div class=\"message-text\"><label>[" +
-           data.received + "] " + data.user_name + ":&nbsp;</label>" +
-           data.message_body + "</div>";
+    var html, label;
+    if (data.user_name == "Server") {
+      label = "info";
+    } else {
+      label = "success";
+    }
+    html = "<div class=\"message-text\">" + "<h4><span class=\"label label-" +
+           label + "\">" + "[" + data.received + "] " + data.user_name + ":</label>" +
+           "</span></h4>&nbsp;" + data.message_body + "</div>";
     $('#chat').append(html);
     $('#chat .message-text:last')[0].scrollIntoView(false);
   });
