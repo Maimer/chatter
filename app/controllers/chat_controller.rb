@@ -17,7 +17,8 @@ class ChatController < WebsocketRails::BaseController
     WebsocketRails[channel].trigger(event, {
       user_name: current_user.handle,
       received: Time.now.to_s(:short),
-      message_body: ERB::Util.html_escape(message)
+      message_body: ERB::Util.html_escape(message),
+      channel_name: channel
     })
   end
 
@@ -25,7 +26,8 @@ class ChatController < WebsocketRails::BaseController
     WebsocketRails[channel].trigger(event, {
         user_name: 'Server',
         received: Time.now.to_s(:short),
-        message_body: "#{connection_store[:user][:handle]} #{action} the channel."
+        message_body: "#{connection_store[:user][:handle]} #{action} the channel.",
+        channel_name: channel
       })
   end
 
@@ -54,7 +56,6 @@ class ChatController < WebsocketRails::BaseController
     user_channels.each do |channel|
       broadcast_user_list(channel)
     end
-    binding.pry
   end
 
   def broadcast_user_list(channel)

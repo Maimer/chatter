@@ -3,10 +3,10 @@
     <div class="col-md-9">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Chat Box</h3>
+          <h3 class="panel-title" id="chatbox-header">Channel Name</h3>
         </div>
         <div class="panel-body chat-panel">
-          <div id="chat" class="" data-uri="<%= request.host %>:<%= request.port %>/websocket">
+          <div id="chat" class="tab-content" data-uri="<%= request.host %>:<%= request.port %>/websocket">
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
           <h3 id="room-heading" class="panel-title">Rooms</h3>
         </div>
         <div class="panel-body room-panel">
-          <div id="room-list"></div>
+          <div id="room-list" role="tablist"></div>
         </div>
       </div>
     </div>

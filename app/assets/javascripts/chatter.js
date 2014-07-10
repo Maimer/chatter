@@ -6,7 +6,10 @@ $(document).ready(function() {
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
     create_channel('General');
+    create_channel('Launch');
   };
+
+  dispatcher.bind('system_wide_message', message_content);
 
   function message_content(data) {
     var html, label;
@@ -18,11 +21,9 @@ $(document).ready(function() {
     html = "<div class=\"message-text\">" + "<h4><span class=\"label label-" +
            label + "\">" + "[" + data.received + "] " + data.user_name + ":</label>" +
            "</span></h4>&nbsp;" + data.message_body + "</div>";
-    $('#chat').append(html);
-    $('#chat .message-text:last')[0].scrollIntoView(false);
+    $('#' + data.channel_name).append(html);
+    $('#' + data.channel_name + ' .message-text:last')[0].scrollIntoView(false);
   };
-
-  dispatcher.bind('system_wide_message', message_content);
 
   function user_list_content(data) {
     var userHtml;
@@ -39,9 +40,9 @@ $(document).ready(function() {
   $('#input-message').on('submit', function(event) {
     event.preventDefault();
     var message = $('#message').val();
-    var currentRoom = $('#room-list .room-text:first label')[0].innerHTML
+    var currentRoom = $('#room-list .room-text.active a').text();
     if (message.split(" ")[0] == "/join") {
-      create_channel(message.split(" ")[1])
+      create_channel(message.split(" ")[1]);
     } else if (message != "") {
       dispatcher.trigger('new_message', {
         channel_name: currentRoom,
@@ -61,18 +62,42 @@ $(document).ready(function() {
     });
 
     update_channels_list();
+
+    html = "<div id=\"" + channelName + "\" class=\"tab-pane\"></div>"
+    $('#chat').append(html);
+    $('#room-list .room-text label a[href="#' + channelName + '"]').tab('show');
+    $('#chatbox-header').html(channelName);
+
+    $('#room-list .room-text.active').removeClass('active');
+    roomList = $('#room-list .room-text label a');
+    roomDivList = $('#room-list .room-text');
+    for (i = 0; i < roomList.length; i++) {
+      if (roomList[i].innerHTML == channelName) {
+        $(roomDivList[i]).addClass('active');
+      }
+    }
   };
+
+  $('#room-list').on('click', '.room-text', function (e) {
+    e.preventDefault();
+    $('#room-list .room-text.active').removeClass('active');
+    $(this).addClass('active');
+    $(this).tab('show');
+    channelName = $(this).find('a')[0].innerHTML;
+    $('#chatbox-header').html(channelName);
+  });
 
   function update_channels_list() {
     var room, channelsHtml, i;
     channelsHtml = "";
     i = 0;
     for (var key in rooms) {
-      room = rooms[key]
+      room = rooms[key];
       channelsHtml = channelsHtml +
       ("<div class=\"room-text\"><i class=\"fa fa-comments\"></i>&nbsp;<label>" +
-      room.name + "</label></div>");
-      i++
+      "<a href=\"#" + room.name + "\" role=\"tab\" data-toggle=\"tab\">" +
+      room.name + "</a></label></div>");
+      i++;
     }
     $('#room-list').html(channelsHtml);
     $('#room-heading').html('Rooms (' + i + ')');
