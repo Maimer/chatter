@@ -7,16 +7,20 @@ h4 {
 }
 
 .chat-panel {
-  height: 560px;
+  height: 400px;
   overflow-y: auto;
 }
 
 .user-panel {
-  height: 250px;
+  height: 170px;
   overflow-y: auto;
 }
 
 .room-panel {
-  height: 250px;
+  height: 170px;
   overflow-y: auto;
+}
+
+.margin-fix {
+  margin-top: -15px !important;
 }

@@ -2,6 +2,7 @@ $(document).ready(function() {
   var dispatcher = new WebSocketRails($('#chat').data('uri'));
 
   var rooms = {};
+  var users = {};
 
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
@@ -26,6 +27,7 @@ $(document).ready(function() {
   };
 
   function user_list_content(data) {
+    users[$('#chatbox-header').text()] = data
     var userHtml;
     userHtml = "";
     for (i = 0; i < data.length; i++) {
@@ -85,6 +87,8 @@ $(document).ready(function() {
     $(this).tab('show');
     channelName = $(this).find('a')[0].innerHTML;
     $('#chatbox-header').html(channelName);
+    debugger
+    user_list_content(users[channelName]);
   });
 
   function update_channels_list() {
