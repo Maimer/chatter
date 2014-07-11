@@ -7,20 +7,53 @@ h4 {
 }
 
 .chat-panel {
-  height: 400px;
+  height: 402px;
   overflow-y: auto;
 }
 
 .user-panel {
-  height: 170px;
+  height: 171px;
   overflow-y: auto;
 }
 
 .room-panel {
-  height: 170px;
+  height: 171px;
   overflow-y: auto;
 }
 
 .margin-fix {
   margin-top: -15px !important;
+}
+
+.padding-fix {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+
+.custom-active {
+  background: #428bca;
+  border-radius: 8px;
+  color: white;
+}
+
+.custom-active a {
+  color: white;
+}
+
+.custom-active a:hover {
+  color: white;
+}
+
+#room-list a {
+  text-decoration: none;
+}
+
+.room-text {
+  margin-left: -10px !important;
+  margin-top: 0px !important;
+  padding: 3px 18px 3px 6px !important;
+}
+
+.room-text label {
+  margin: 0px !important;
 }

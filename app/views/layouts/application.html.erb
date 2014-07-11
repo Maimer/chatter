@@ -11,16 +11,16 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <%= link_to "Chatter", root_path, class: "navbar-brand" %>
+      <%= link_to "Chatter", root_path, class: "navbar-brand padding-fix" %>
     </div>
     <div>
       <% if user_signed_in? %>
-        <p class="navbar-text navbar-right">
+        <p class="navbar-text navbar-right padding-fix">
           <%= current_user.handle %> |
           <%= link_to "Sign Out", destroy_user_session_path, class: "navbar-link", method: :delete %>
         </p>
       <% else %>
-        <p class="navbar-text navbar-right">
+        <p class="navbar-text navbar-right padding-fix">
           <%= link_to "Sign In", new_user_session_path, class: "navbar-link" %>
         </p>
       <% end %>

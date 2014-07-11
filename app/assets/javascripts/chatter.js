@@ -16,6 +16,8 @@ $(document).ready(function() {
     var html, label;
     if (data.user_name == "Server") {
       label = "info";
+    } else if (data.user_name == "Admin") {
+      label = "danger";
     } else {
       label = "success";
     }
@@ -23,26 +25,30 @@ $(document).ready(function() {
            label + "\">" + "[" + data.received + "] " + data.user_name + ":</label>" +
            "</span></h4>&nbsp;" + data.message_body + "</div>";
     $('#' + data.channel_name).append(html);
-    $('#' + data.channel_name + ' .message-text:last')[0].scrollIntoView(false);
+    $('#' + data.channel_name + ' .message-text span:last')[0].scrollIntoView(true);
   };
 
   function user_list_content(data) {
-    users[$('#chatbox-header').text()] = data
-    var userHtml;
-    userHtml = "";
-    for (i = 0; i < data.length; i++) {
-      userHtml = userHtml +
-      ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
-      data[i] + "</label></div>");
+    if ($('#chatbox-header').text() == data.channel_name) {
+      users[data.channel_name] = data.users;
+      var userHtml;
+      userHtml = "";
+      for (i = 0; i < data.users.length; i++) {
+        userHtml = userHtml +
+        ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
+        data.users[i] + "</label></div>");
+      }
+      $('#user-list').html(userHtml);
+      $('#user-heading').html('Users (' + data.users.length + ')');
+    } else {
+      users[data.channel_name] = data.users;
     }
-    $('#user-list').html(userHtml);
-    $('#user-heading').html('Users (' + data.length + ')');
   };
 
   $('#input-message').on('submit', function(event) {
     event.preventDefault();
     var message = $('#message').val();
-    var currentRoom = $('#room-list .room-text.active a').text();
+    var currentRoom = $('#room-list .room-text.custom-active a').text();
     if (message.split(" ")[0] == "/join") {
       create_channel(message.split(" ")[1]);
     } else if (message != "") {
@@ -70,26 +76,15 @@ $(document).ready(function() {
     $('#room-list .room-text label a[href="#' + channelName + '"]').tab('show');
     $('#chatbox-header').html(channelName);
 
-    $('#room-list .room-text.active').removeClass('active');
+    $('#room-list .room-text.custom-active').removeClass('custom-active');
     roomList = $('#room-list .room-text label a');
     roomDivList = $('#room-list .room-text');
     for (i = 0; i < roomList.length; i++) {
       if (roomList[i].innerHTML == channelName) {
-        $(roomDivList[i]).addClass('active');
+        $(roomDivList[i]).addClass('custom-active');
       }
     }
   };
-
-  $('#room-list').on('click', '.room-text', function (e) {
-    e.preventDefault();
-    $('#room-list .room-text.active').removeClass('active');
-    $(this).addClass('active');
-    $(this).tab('show');
-    channelName = $(this).find('a')[0].innerHTML;
-    $('#chatbox-header').html(channelName);
-    debugger
-    user_list_content(users[channelName]);
-  });
 
   function update_channels_list() {
     var room, channelsHtml, i;
@@ -98,12 +93,29 @@ $(document).ready(function() {
     for (var key in rooms) {
       room = rooms[key];
       channelsHtml = channelsHtml +
-      ("<div class=\"room-text\"><i class=\"fa fa-comments\"></i>&nbsp;<label>" +
+      ("<li class=\"room-text\"><i class=\"fa fa-comments\"></i>&nbsp;<label>" +
       "<a href=\"#" + room.name + "\" role=\"tab\" data-toggle=\"tab\">" +
-      room.name + "</a></label></div>");
+      room.name + "</a></label></li>");
       i++;
     }
     $('#room-list').html(channelsHtml);
     $('#room-heading').html('Rooms (' + i + ')');
-  }
+  };
+
+  $('#room-list').on('click', '.room-text', function (e) {
+    e.preventDefault();
+    $('#room-list .room-text.custom-active').removeClass('custom-active');
+    $(this).addClass('custom-active');
+    var channelName = $(this).find('a')[0].innerHTML;
+    $('#chatbox-header').html(channelName);
+    user_list_content({
+      users: users[channelName],
+      channel_name: channelName
+    });
+    $(this).tab('show');
+
+    setTimeout(function() {
+      $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
+    }, 25);
+  });
 });
