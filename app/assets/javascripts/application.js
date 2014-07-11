@@ -12,7 +12,21 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
 //= require websocket_rails/main
 //= require bootstrap
+//= require chat
+//= require room
+
+$(function() {
+  var chat = new Chat();
+  var room = chat.createRoom('General');
+  chat.currentRoom = room;
+  chat.render();
+
+  $('#input-message').on('submit', function(event) {
+    event.preventDefault();
+    var message = $('#message').val();
+    chat.addMessage(message);
+    $('#message').val('');
+  });
+});
