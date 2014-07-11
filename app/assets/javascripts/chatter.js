@@ -104,15 +104,18 @@ $(document).ready(function() {
 
   $('#room-list').on('click', '.room-text', function (e) {
     e.preventDefault();
-    $(this).tab('show');
     $('#room-list .room-text.custom-active').removeClass('custom-active');
     $(this).addClass('custom-active');
-    channelName = $(this).find('a')[0].innerHTML;
+    var channelName = $(this).find('a')[0].innerHTML;
     $('#chatbox-header').html(channelName);
     user_list_content({
       users: users[channelName],
       channel_name: channelName
     });
-    $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
+    $(this).tab('show');
+
+    setTimeout(function() {
+      $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
+    }, 25);
   });
 });
