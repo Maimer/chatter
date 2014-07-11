@@ -7,7 +7,7 @@ $(document).ready(function() {
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
     create_channel('General');
-    // create_channel('Launch');
+    create_channel('Launch');
   };
 
   dispatcher.bind('system_wide_message', message_content);
@@ -104,12 +104,12 @@ $(document).ready(function() {
     e.preventDefault();
     $('#room-list .room-text.custom-active').removeClass('custom-active');
     $(this).addClass('custom-active');
-    $(this).tab('show');
     channelName = $(this).find('a')[0].innerHTML;
     $('#chatbox-header').html(channelName);
     user_list_content({
       users: users[channelName],
       channel_name: channelName
     });
+    $(this).tab('show');
   });
 });
