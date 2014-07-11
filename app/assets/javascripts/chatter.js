@@ -7,7 +7,7 @@ $(document).ready(function() {
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
     create_channel('General');
-    create_channel('Launch');
+    // create_channel('Launch');
   };
 
   dispatcher.bind('system_wide_message', message_content);
@@ -27,22 +27,26 @@ $(document).ready(function() {
   };
 
   function user_list_content(data) {
-    users[$('#chatbox-header').text()] = data
-    var userHtml;
-    userHtml = "";
-    for (i = 0; i < data.length; i++) {
-      userHtml = userHtml +
-      ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
-      data[i] + "</label></div>");
+    if ($('#chatbox-header').text() == data.channel_name) {
+      users[data.channel_name] = data.users;
+      var userHtml;
+      userHtml = "";
+      for (i = 0; i < data.users.length; i++) {
+        userHtml = userHtml +
+        ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
+        data.users[i] + "</label></div>");
+      }
+      $('#user-list').html(userHtml);
+      $('#user-heading').html('Users (' + data.users.length + ')');
+    } else {
+      users[data.channel_name] = data.users;
     }
-    $('#user-list').html(userHtml);
-    $('#user-heading').html('Users (' + data.length + ')');
   };
 
   $('#input-message').on('submit', function(event) {
     event.preventDefault();
     var message = $('#message').val();
-    var currentRoom = $('#room-list .room-text.active a').text();
+    var currentRoom = $('#room-list .room-text.custom-active a').text();
     if (message.split(" ")[0] == "/join") {
       create_channel(message.split(" ")[1]);
     } else if (message != "") {
@@ -70,26 +74,15 @@ $(document).ready(function() {
     $('#room-list .room-text label a[href="#' + channelName + '"]').tab('show');
     $('#chatbox-header').html(channelName);
 
-    $('#room-list .room-text.active').removeClass('active');
+    $('#room-list .room-text.custom-active').removeClass('custom-active');
     roomList = $('#room-list .room-text label a');
     roomDivList = $('#room-list .room-text');
     for (i = 0; i < roomList.length; i++) {
       if (roomList[i].innerHTML == channelName) {
-        $(roomDivList[i]).addClass('active');
+        $(roomDivList[i]).addClass('custom-active');
       }
     }
   };
-
-  $('#room-list').on('click', '.room-text', function (e) {
-    e.preventDefault();
-    $('#room-list .room-text.active').removeClass('active');
-    $(this).addClass('active');
-    $(this).tab('show');
-    channelName = $(this).find('a')[0].innerHTML;
-    $('#chatbox-header').html(channelName);
-    debugger
-    user_list_content(users[channelName]);
-  });
 
   function update_channels_list() {
     var room, channelsHtml, i;
@@ -98,12 +91,25 @@ $(document).ready(function() {
     for (var key in rooms) {
       room = rooms[key];
       channelsHtml = channelsHtml +
-      ("<div class=\"room-text\"><i class=\"fa fa-comments\"></i>&nbsp;<label>" +
+      ("<li class=\"room-text\"><i class=\"fa fa-comments\"></i>&nbsp;<label>" +
       "<a href=\"#" + room.name + "\" role=\"tab\" data-toggle=\"tab\">" +
-      room.name + "</a></label></div>");
+      room.name + "</a></label></li>");
       i++;
     }
     $('#room-list').html(channelsHtml);
     $('#room-heading').html('Rooms (' + i + ')');
-  }
+  };
+
+  $('#room-list').on('click', '.room-text', function (e) {
+    e.preventDefault();
+    $('#room-list .room-text.custom-active').removeClass('custom-active');
+    $(this).addClass('custom-active');
+    $(this).tab('show');
+    channelName = $(this).find('a')[0].innerHTML;
+    $('#chatbox-header').html(channelName);
+    user_list_content({
+      users: users[channelName],
+      channel_name: channelName
+    });
+  });
 });

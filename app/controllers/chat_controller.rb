@@ -7,7 +7,7 @@ class ChatController < WebsocketRails::BaseController
 
   def system_wide_message(event, channel)
     broadcast_message(event, {
-      user_name: 'Server',
+      user_name: 'Admin',
       received: Time.now.to_s(:short),
       message_body: message
     })
@@ -63,8 +63,9 @@ class ChatController < WebsocketRails::BaseController
     WebsocketRails[channel].subscribers.each do |conn|
       users << conn.user.handle
     end
-    WebsocketRails[channel].trigger(:user_list, users)
-    # users = connection_store.collect_all(:user)
-    # broadcast_message(:user_list, users)
+    WebsocketRails[channel].trigger(:user_list, {
+      users: users,
+      channel_name: channel
+      })
   end
 end
