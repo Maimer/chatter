@@ -25,7 +25,7 @@ $(document).ready(function() {
            label + "\">" + "[" + data.received + "] " + data.user_name + ":</label>" +
            "</span></h4>&nbsp;" + data.message_body + "</div>";
     $('#' + data.channel_name).append(html);
-    $('#' + data.channel_name + ' .message-text:last')[0].scrollIntoView(false);
+    $('#' + data.channel_name + ' .message-text span:last')[0].scrollIntoView(true);
   };
 
   function user_list_content(data) {
@@ -104,6 +104,7 @@ $(document).ready(function() {
 
   $('#room-list').on('click', '.room-text', function (e) {
     e.preventDefault();
+    $(this).tab('show');
     $('#room-list .room-text.custom-active').removeClass('custom-active');
     $(this).addClass('custom-active');
     channelName = $(this).find('a')[0].innerHTML;
@@ -112,6 +113,6 @@ $(document).ready(function() {
       users: users[channelName],
       channel_name: channelName
     });
-    $(this).tab('show');
+    $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
   });
 });
