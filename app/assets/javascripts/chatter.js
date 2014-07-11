@@ -16,6 +16,8 @@ $(document).ready(function() {
     var html, label;
     if (data.user_name == "Server") {
       label = "info";
+    } else if (data.user_name == "Admin") {
+      label = "danger";
     } else {
       label = "success";
     }
