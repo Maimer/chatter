@@ -118,3 +118,8 @@ h4 {
 .navbar-brand {
   font-size: 22px !important;
 }
+
+i {
+  width: 14px;
+  text-align: center;
+}

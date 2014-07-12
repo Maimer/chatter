@@ -39,11 +39,15 @@ $(document).ready(function() {
   function user_list_content(data) {
     if ($('#chatbox-header').text() == data.channel_name) {
       users[data.channel_name] = data.users;
-      var userHtml;
+      var userHtml, icon;
       userHtml = "";
       for (i = 0; i < data.users.length; i++) {
+        icon = 'user';
+        if (data.admins.indexOf(data.users[i]) > -1) {
+          icon = 'gavel';
+        }
         userHtml = userHtml +
-        ("<div class=\"user-text\"><i class=\"fa fa-user\"></i>&nbsp;<label>" +
+        ("<div class=\"user-text\"><i class=\"fa fa-" + icon + "\"></i>&nbsp;<label>" +
         data.users[i] + "</label></div>");
       }
       $('#user-list').html(userHtml);
