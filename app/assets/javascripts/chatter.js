@@ -112,10 +112,8 @@ $(document).ready(function() {
       users: users[channelName],
       channel_name: channelName
     });
-    $(this).tab('show');
-
-    setTimeout(function() {
+    $(this).tab('show').on('shown.bs.tab', function() {
       $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
-    }, 25);
+    });
   });
 });
