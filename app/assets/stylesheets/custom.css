@@ -12,17 +12,13 @@ h4 {
 }
 
 .user-panel {
-  height: 171px;
+  height: 176px;
   overflow-y: auto;
 }
 
 .room-panel {
-  height: 171px;
+  height: 176px;
   overflow-y: auto;
-}
-
-.margin-fix {
-  margin-top: -15px !important;
 }
 
 .padding-fix {
@@ -51,7 +47,7 @@ h4 {
 .room-text {
   margin-left: -10px !important;
   margin-top: 0px !important;
-  padding: 3px 18px 3px 6px !important;
+  padding: 3px 6px 3px 6px !important;
 }
 
 .room-text label {
@@ -97,4 +93,24 @@ h4 {
 
 .alert-error {
   padding: 0px !important;
+}
+
+.form-control {
+  border: 1px solid #428bca !important;
+}
+
+.col-md-9 {
+  padding-right: 5px !important;
+}
+
+.col-md-3 {
+  padding-left: 5px !important;
+}
+
+.panel.panel-primary {
+  margin-bottom: 10px !important;
+}
+
+.pull-right {
+  margin-top: 1px !important;
 }

@@ -3,6 +3,7 @@ $(document).ready(function() {
 
   var rooms = {};
   var users = {};
+  var messages = {};
 
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
@@ -26,6 +27,13 @@ $(document).ready(function() {
            "</span></h4>&nbsp;" + data.message_body + "</div>";
     $('#' + data.channel_name).append(html);
     $('#' + data.channel_name + ' .message-text span:last')[0].scrollIntoView(true);
+    if (data.channel_name == $('#chatbox-header').text()) {
+      messages[data.channel_name] = 0;
+      $("li:contains("+data.channel_name+") span").html("");
+    } else {
+      messages[data.channel_name]++;
+      $("li:contains("+data.channel_name+") span").html(messages[data.channel_name]);
+    }
   };
 
   function user_list_content(data) {
@@ -45,8 +53,8 @@ $(document).ready(function() {
     }
   };
 
-  $('#input-message').on('submit', function(event) {
-    event.preventDefault();
+  $('#input-message').on('submit', function(e) {
+    e.preventDefault();
     var message = $('#message').val();
     var currentRoom = $('#room-list .room-text.custom-active a').text();
     if (message.split(" ")[0] == "/join") {
@@ -69,6 +77,8 @@ $(document).ready(function() {
       user_action: "joined"
     });
 
+    messages[channelName] = 0;
+
     update_channels_list();
 
     html = "<div id=\"" + channelName + "\" class=\"tab-pane\"></div>"
@@ -87,18 +97,25 @@ $(document).ready(function() {
   };
 
   function update_channels_list() {
-    var room, channelsHtml, i;
+    var channelsHtml, i, indicator;
     channelsHtml = "";
+    indicator = "<span class=\"badge pull-right\"></span>";
     i = 0;
-    for (var key in rooms) {
-      room = rooms[key];
+    for (var room in rooms) {
       channelsHtml = channelsHtml +
       ("<li class=\"room-text\"><i class=\"fa fa-comments\"></i>&nbsp;<label>" +
-      "<a href=\"#" + room.name + "\" role=\"tab\" data-toggle=\"tab\">" +
-      room.name + "</a></label></li>");
+      "<a href=\"#" + room + "\" role=\"tab\" data-toggle=\"tab\">" +
+      room + "</a></label>" + indicator + "</li>");
       i++;
     }
     $('#room-list').html(channelsHtml);
+    for (var room in rooms) {
+      if (messages[room] == 0) {
+        $("li:contains("+room+") span").html("");
+      } else {
+        $("li:contains("+room+") span").html(messages[room]);
+      }
+    }
     $('#room-heading').html('Rooms (' + i + ')');
   };
 
@@ -115,5 +132,6 @@ $(document).ready(function() {
     $(this).tab('show').on('shown.bs.tab', function() {
       $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
     });
+    $("li:contains("+channelName+") span").html("");
   });
 });
