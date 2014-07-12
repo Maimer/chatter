@@ -26,7 +26,7 @@ h4 {
 }
 
 .padding-fix {
-  padding-left: 30px !important;
+  padding-left: 85px !important;
   padding-right: 30px !important;
 }
 
@@ -56,4 +56,45 @@ h4 {
 
 .room-text label {
   margin: 0px !important;
+}
+
+.room-text:hover {
+  background: #E8E8E8;
+  border-radius: 8px;
+}
+
+.custom-active:hover {
+  background: #428bca;
+  border-radius: 8px;
+}
+
+.menu-image {
+  float: left;
+  margin-bottom: -90px;
+}
+
+.border-form-div {
+  max-width: 400px;
+  padding: 5px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+.border-form-div h2 {
+  margin-bottom: 20px;
+}
+
+.form-inputs .checkbox {
+  margin-left: 20px;
+}
+
+.alert-error {
+  padding: 0px !important;
 }
