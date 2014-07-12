@@ -35,6 +35,22 @@ class ChatController < WebsocketRails::BaseController
       })
   end
 
+  def broadcast_user_list(channel)
+    users = []
+    admins = []
+    WebsocketRails[channel].subscribers.each do |conn|
+      users << conn.user.handle
+      if conn.user.admin
+        admins << conn.user.handle
+      end
+    end
+    WebsocketRails[channel].trigger(:user_list, {
+      users: users,
+      channel_name: channel,
+      admins: admins
+      })
+  end
+
   def client_connected
     connection_store[:user] = { handle: current_user.handle }
     connection_store[:channels] = []
@@ -64,16 +80,5 @@ class ChatController < WebsocketRails::BaseController
     user_channels.each do |channel|
       broadcast_user_list(channel)
     end
-  end
-
-  def broadcast_user_list(channel)
-    users = []
-    WebsocketRails[channel].subscribers.each do |conn|
-      users << conn.user.handle
-    end
-    WebsocketRails[channel].trigger(:user_list, {
-      users: users,
-      channel_name: channel
-      })
   end
 end
