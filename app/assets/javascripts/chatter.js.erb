@@ -78,9 +78,9 @@ $(document).ready(function() {
   });
 
   function chatter_image() {
-    $('.menu-image').attr('src', '/assets/chatter2.png');
+    $('.menu-image').attr('src', '<%= asset_path('chatter2.png') %>');
     setTimeout(function() {
-      $('.menu-image').attr('src', '/assets/chatter.png')
+      $('.menu-image').attr('src', '<%= asset_path('chatter.png') %>')
     }, 175);
   };
 
