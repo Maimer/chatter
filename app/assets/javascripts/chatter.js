@@ -138,7 +138,9 @@ $(document).ready(function() {
     e.preventDefault();
     $('#room-list .room-text.custom-active').removeClass('custom-active');
     $(this).addClass('custom-active');
-    var channelName = $(this).find('a')[0].innerHTML;
+    var tabLink = $(this).find('a')[0]
+    var channelName = tabLink.innerHTML;
+    tabLink.click();
     $('#chatbox-header').html(channelName);
     user_list_content({
       users: users[channelName],

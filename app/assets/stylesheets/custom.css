@@ -45,9 +45,9 @@ h4, h3 {
 }
 
 .room-text {
-  margin-left: -10px !important;
+  margin-left: -6px !important;
   margin-top: 0px !important;
-  padding: 3px 6px 3px 6px !important;
+  padding: 3px 6px 3px 7px !important;
 }
 
 .room-text label {
