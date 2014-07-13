@@ -1,4 +1,4 @@
-h4 {
+h4, h3 {
   display: inline;
 }
 
@@ -7,17 +7,17 @@ h4 {
 }
 
 .chat-panel {
-  height: 402px;
+  height: 403px;
   overflow-y: auto;
 }
 
 .user-panel {
-  height: 176px;
+  height: 175px;
   overflow-y: auto;
 }
 
 .room-panel {
-  height: 176px;
+  height: 175px;
   overflow-y: auto;
 }
 
@@ -45,9 +45,9 @@ h4 {
 }
 
 .room-text {
-  margin-left: -10px !important;
+  margin-left: -6px !important;
   margin-top: 0px !important;
-  padding: 3px 6px 3px 6px !important;
+  padding: 3px 6px 3px 7px !important;
 }
 
 .room-text label {
@@ -117,9 +117,18 @@ h4 {
 
 .navbar-brand {
   font-size: 22px !important;
+  color: #444 !important;
+}
+
+.navbar-link {
+  color: #444 !important;
 }
 
 i {
   width: 14px;
   text-align: center;
+}
+
+.panel {
+  background-color: #f8f8f8 !important;
 }

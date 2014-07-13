@@ -3,6 +3,7 @@ $(document).ready(function() {
 
   var rooms = {};
   var users = {};
+  var admins = {};
   var messages = {};
 
   dispatcher.on_open = function(data) {
@@ -39,6 +40,7 @@ $(document).ready(function() {
   function user_list_content(data) {
     if ($('#chatbox-header').text() == data.channel_name) {
       users[data.channel_name] = data.users;
+      admins[data.channel_name] = data.admins;
       var userHtml, icon;
       userHtml = "";
       for (i = 0; i < data.users.length; i++) {
@@ -54,6 +56,7 @@ $(document).ready(function() {
       $('#user-heading').html('Users (' + data.users.length + ')');
     } else {
       users[data.channel_name] = data.users;
+      admins[data.channel_name] = data.admins;
     }
   };
 
@@ -68,9 +71,17 @@ $(document).ready(function() {
         channel_name: currentRoom,
         message_body: message.trim()
       });
+      chatter_image();
     }
     $('#message').val('');
   });
+
+  function chatter_image() {
+    $('.menu-image').attr('src', '/assets/chatter2.png');
+    setTimeout(function() {
+      $('.menu-image').attr('src', '/assets/chatter.png')
+    }, 175);
+  };
 
   function create_channel(channelName) {
     rooms[channelName] = dispatcher.subscribe(channelName);
@@ -127,15 +138,18 @@ $(document).ready(function() {
     e.preventDefault();
     $('#room-list .room-text.custom-active').removeClass('custom-active');
     $(this).addClass('custom-active');
-    var channelName = $(this).find('a')[0].innerHTML;
+    var tabLink = $(this).find('a')[0]
+    var channelName = tabLink.innerHTML;
+    tabLink.click();
     $('#chatbox-header').html(channelName);
     user_list_content({
       users: users[channelName],
-      channel_name: channelName
+      channel_name: channelName,
+      admins: admins[channelName]
     });
+    $("li:contains("+channelName+") span").html("");
     $(this).tab('show').on('shown.bs.tab', function() {
       $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
     });
-    $("li:contains("+channelName+") span").html("");
   });
 });
