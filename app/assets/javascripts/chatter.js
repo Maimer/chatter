@@ -31,6 +31,7 @@ $(document).ready(function() {
     if (data.channel_name == $('#chatbox-header').text()) {
       messages[data.channel_name] = 0;
       $("li:contains("+data.channel_name+") span").html("");
+      chatter_image();
     } else {
       messages[data.channel_name]++;
       $("li:contains("+data.channel_name+") span").html(messages[data.channel_name]);
@@ -151,5 +152,6 @@ $(document).ready(function() {
     $(this).tab('show').on('shown.bs.tab', function() {
       $('#' + channelName + ' .message-text h4:last')[0].scrollIntoView(true);
     });
+    $('#message').focus();
   });
 });
