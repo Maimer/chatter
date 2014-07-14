@@ -35,6 +35,15 @@ class ChatController < WebsocketRails::BaseController
       })
   end
 
+  def action_message(event, channel, message)
+    WebsocketRails[channel].trigger(event, {
+        user_name: 'HAL9000',
+        received: Time.now.to_s(:short),
+        message_body: message,
+        channel_name: channel
+      })
+  end
+
   def broadcast_user_list(channel)
     users = []
     admins = []
@@ -60,6 +69,10 @@ class ChatController < WebsocketRails::BaseController
     response_body = format_message(ERB::Util.html_escape(message[:message_body]))
     if current_user.admin && response_body.start_with?('/admin')
       system_wide_message(:new_message, response_body[7..-1])
+    elsif response_body.start_with?('/roll')
+      roll = user_roll(response_body)
+      action_message(:new_message, message[:channel_name],
+                    "#{connection_store[:user][:handle]} rolled a #{roll[0]} (1-#{roll[1]})!")
     else
       user_message(:new_message, response_body, message[:channel_name])
     end

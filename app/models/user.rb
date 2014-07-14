@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates :handle, presence: true,
             format: { with: /\A[\w]+\z/ },
             length: { minimum: 4, maximum: 12 },
-            exclusion: { in: %w(Admin Server) }
+            exclusion: { in: %w(Admin Server HAL9000) }
 
   validates_uniqueness_of :handle, case_sensitive: false
 end

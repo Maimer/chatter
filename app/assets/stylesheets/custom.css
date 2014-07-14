@@ -8,14 +8,11 @@ h4, h3 {
 }
 
 .message-text {
-  display: inline;
-  height: 100%;
+  float: left;
 }
 
 .message-body {
-  display: inline;
-  height: 100%;
-  vertical-align: top;
+  overflow: hidden;
 }
 
 .chat-panel {
@@ -150,7 +147,6 @@ i {
   border-color: #D8D8D8 !important;
 }
 
-.text-top {
+.user-image {
   vertical-align: text-top;
-  margin-top: -4px;
 }

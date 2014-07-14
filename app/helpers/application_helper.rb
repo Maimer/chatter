@@ -6,7 +6,7 @@ module ApplicationHelper
         size = FastImage.size(token)
         if size != nil
           width = size[0] > 400 ? 400 : size[0]
-          "<img class=\"text-top\" src=\"#{token}\" width=\"#{width}\" >"
+          "<p><img class=\"user-image\" src=\"#{token}\" width=\"#{width}\" ></p>"
         else
           "<a href=\"#{token}\" target=\"_blank\">#{token}</a>"
         end
@@ -15,5 +15,13 @@ module ApplicationHelper
       end
     end
     converted.join(" ")
+  end
+
+  def user_roll(message, range = 10)
+    tokens = message.split(" ")
+    if tokens.size > 1 && tokens[1].to_i > 1
+      range = tokens[1].to_i
+    end
+    [rand(range) + 1, range]
   end
 end
