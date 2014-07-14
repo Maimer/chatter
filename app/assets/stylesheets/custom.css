@@ -132,3 +132,8 @@ i {
 .panel {
   background-color: #f8f8f8 !important;
 }
+
+.navbar-default {
+  background-color: #F0F0F0 !important;
+  border-color: #D8D8D8 !important;
+}
