@@ -137,3 +137,8 @@ i {
   background-color: #F0F0F0 !important;
   border-color: #D8D8D8 !important;
 }
+
+.text-top {
+  vertical-align: text-top;
+  margin-top: -4px;
+}

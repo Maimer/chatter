@@ -44,6 +44,7 @@ group :development, :test do
   gem 'capybara'
   gem 'pry-rails'
   gem 'launchy'
+  gem 'quiet_assets'
 end
 
 # Use ActiveModel has_secure_password
