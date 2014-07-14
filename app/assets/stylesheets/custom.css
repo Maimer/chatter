@@ -2,8 +2,20 @@ h4, h3 {
   display: inline;
 }
 
-.message-text {
+.message-block {
   margin-top: 5px;
+  width: 100%;
+}
+
+.message-text {
+  display: inline;
+  height: 100%;
+}
+
+.message-body {
+  display: inline;
+  height: 100%;
+  vertical-align: top;
 }
 
 .chat-panel {
@@ -136,4 +148,9 @@ i {
 .navbar-default {
   background-color: #F0F0F0 !important;
   border-color: #D8D8D8 !important;
+}
+
+.text-top {
+  vertical-align: text-top;
+  margin-top: -4px;
 }

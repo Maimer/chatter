@@ -63,6 +63,8 @@ GEM
     factory_girl_rails (4.4.1)
       factory_girl (~> 4.4.0)
       railties (>= 3.0.0)
+    fastimage (1.6.3)
+      addressable (~> 2.3, >= 2.3.5)
     faye-websocket (0.7.4)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.3.1)
@@ -99,6 +101,8 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
+    quiet_assets (1.0.3)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -207,12 +211,14 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   factory_girl_rails
+  fastimage
   font-awesome-rails
   jbuilder (~> 2.0)
   jquery-rails
   launchy
   pg
   pry-rails
+  quiet_assets
   rails (= 4.1.1)
   rails_12factor
   rspec-rails

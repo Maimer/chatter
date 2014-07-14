@@ -1,8 +1,8 @@
 class ChatController < WebsocketRails::BaseController
   include ActionView::Helpers::SanitizeHelper
+  include ApplicationHelper
 
   def initialize_session
-
   end
 
   def system_wide_message(event, message)
@@ -21,7 +21,7 @@ class ChatController < WebsocketRails::BaseController
     WebsocketRails[channel].trigger(event, {
       user_name: current_user.handle,
       received: Time.now.to_s(:short),
-      message_body: ERB::Util.html_escape(message),
+      message_body: message,
       channel_name: channel
     })
   end
@@ -57,10 +57,11 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def new_message
-    if current_user.admin && message[:message_body].start_with?('/admin')
-      system_wide_message(:new_message, message[:message_body][7..-1])
+    response_body = format_message(ERB::Util.html_escape(message[:message_body]))
+    if current_user.admin && response_body.start_with?('/admin')
+      system_wide_message(:new_message, response_body[7..-1])
     else
-      user_message(:new_message, message[:message_body], message[:channel_name])
+      user_message(:new_message, response_body, message[:channel_name])
     end
   end
 

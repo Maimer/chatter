@@ -23,9 +23,11 @@ $(document).ready(function() {
     } else {
       label = "success";
     }
-    html = "<div class=\"message-text\">" + "<h4><span class=\"label label-" +
-           label + "\">" + "[" + data.received + "] " + data.user_name + ":</label>" +
-           "</span></h4>&nbsp;" + data.message_body + "</div>";
+    html = "<div class=\"message-block\"><div class=\"message-text\">" +
+            "<h4><span class=\"label label-" +
+           label + "\">" + "[" + data.received + "] " + data.user_name +
+           ":</label>" + "</span></h4>&nbsp;</div><div class=\"message-body\">" +
+           data.message_body + "</div></div>";
     $('#' + data.channel_name).append(html);
     $('#' + data.channel_name + ' .message-text span:last')[0].scrollIntoView(true);
     if (data.channel_name == $('#chatbox-header').text()) {
