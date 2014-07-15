@@ -127,8 +127,10 @@ $(document).ready(function() {
 
   function chatter_image() {
     $('.menu-image').attr('src', '<%= asset_path('chatter2.png') %>');
+    $('#favicon').attr('href', '<%= asset_path('favicon-chatter2.ico') %>');
     setTimeout(function() {
-      $('.menu-image').attr('src', '<%= asset_path('chatter.png') %>')
+      $('.menu-image').attr('src', '<%= asset_path('chatter.png') %>');
+      $('#favicon').attr('href', '<%= asset_path('favicon-chatter.ico') %>');
     }, 175);
   };
 
