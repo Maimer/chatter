@@ -153,9 +153,13 @@ $(document).ready(function() {
 
       delete rooms[channelName];
 
-      $('#room-list li:contains('+channelName+')')[0].remove();
+      $('#' + channelName).remove();
+      update_channels_list();
+      $('#room-list li:last a').click()
 
-      debugger
+      if ($('#room-list li').length == 0) {
+        $('#chatbox-header').html("Channel Name");
+      }
     }
   };
 
