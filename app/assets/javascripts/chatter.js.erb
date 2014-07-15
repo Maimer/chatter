@@ -78,6 +78,8 @@ $(document).ready(function() {
       create_channel(message.split(" ")[1]);
     } else if (message.split(" ")[0] == "/channels") {
       list_public_channels();
+    } else if (message.split(" ")[0] == "/help") {
+      get_help();
     } else if (message != "") {
       dispatcher.trigger('new_message', {
         channel_name: currentRoom,
@@ -88,19 +90,39 @@ $(document).ready(function() {
     $('#message').val('');
   });
 
+  function get_help() {
+    var message_time = get_time();
+    message_content({
+      user_name: 'HAL9000',
+      received: message_time,
+      message_body: 'Welcome to Chatter Help!' +
+                    '<br>The following commands are available for use:' +
+                    '<br>/join &lt;channel&gt; (creates or joins public channel)' +
+                    '<br>/channels (lists all current public channels)' +
+                    '<br>/admin &lt;message&gt; (sends a global message if user is an admin)' +
+                    '<br>/roll &lt;number&gt; (generates a random number between 1 and number)',
+      channel_name: $('#chatbox-header').text()
+    });
+  };
+
   function list_public_channels() {
-    var message_time = new Date().toString().split(" ");
-    message_time = message_time[2] +
-                   " " + message_time[1] +
-                   " " + message_time[4].slice(0, -3);
     var channels_list = "Current public channels: " +
                         public_channels.join(", ") + ".";
+    var message_time = get_time();
     message_content({
       user_name: 'HAL9000',
       received: message_time,
       message_body: channels_list,
       channel_name: $('#chatbox-header').text()
     });
+  };
+
+  function get_time() {
+    var message_time = new Date().toString().split(" ");
+    message_time = message_time[2] +
+                   " " + message_time[1] +
+                   " " + message_time[4].slice(0, -3);
+    return message_time;
   };
 
   function chatter_image() {
