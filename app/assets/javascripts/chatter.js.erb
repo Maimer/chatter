@@ -5,6 +5,7 @@ $(document).ready(function() {
   var users = {};
   var admins = {};
   var messages = {};
+  var public_channels = [];
 
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
@@ -12,7 +13,11 @@ $(document).ready(function() {
     create_channel('Launch');
   };
 
-  dispatcher.bind('system_wide_message', message_content);
+  dispatcher.bind('public_channels', public_channels_store);
+
+  function public_channels_store(data) {
+    public_channels = data.channels
+  };
 
   function message_content(data) {
     var html, label;
@@ -71,6 +76,8 @@ $(document).ready(function() {
     var currentRoom = $('#room-list .room-text.custom-active a').text();
     if (message.split(" ")[0] == "/join") {
       create_channel(message.split(" ")[1]);
+    } else if (message.split(" ")[0] == "/channels") {
+      list_public_channels();
     } else if (message != "") {
       dispatcher.trigger('new_message', {
         channel_name: currentRoom,
@@ -80,6 +87,21 @@ $(document).ready(function() {
     }
     $('#message').val('');
   });
+
+  function list_public_channels() {
+    var message_time = new Date().toString().split(" ");
+    message_time = message_time[2] +
+                   " " + message_time[1] +
+                   " " + message_time[4].slice(0, -3);
+    var channels_list = "Current public channels: " +
+                        public_channels.join(", ") + ".";
+    message_content({
+      user_name: 'HAL9000',
+      received: message_time,
+      message_body: channels_list,
+      channel_name: $('#chatbox-header').text()
+    });
+  };
 
   function chatter_image() {
     $('.menu-image').attr('src', '<%= asset_path('chatter2.png') %>');

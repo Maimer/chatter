@@ -6,7 +6,7 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def system_wide_message(event, message)
-    channels = connection_store.collect_all(:channels).flatten.uniq
+    channels = WebsocketRails.channel_tokens.keys
     channels.each do |channel|
       WebsocketRails[channel].trigger(event, {
         user_name: 'Admin',
@@ -60,6 +60,16 @@ class ChatController < WebsocketRails::BaseController
       })
   end
 
+  def broadcast_public_channels
+    all_channels = []
+    WebsocketRails.channel_tokens.keys.each do |channel|
+      if WebsocketRails[channel].subscribers.size > 0
+        all_channels << channel
+      end
+    end
+    broadcast_message(:public_channels, { channels: all_channels })
+  end
+
   def client_connected
     connection_store[:user] = { handle: current_user.handle }
     connection_store[:channels] = []
@@ -82,6 +92,7 @@ class ChatController < WebsocketRails::BaseController
     channel_message(:new_message, message[:channel_name], message[:user_action])
     connection_store[:channels] << message[:channel_name]
     broadcast_user_list(message[:channel_name])
+    broadcast_public_channels
   end
 
   def delete_user
