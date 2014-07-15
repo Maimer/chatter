@@ -155,10 +155,12 @@ $(document).ready(function() {
 
       $('#' + channelName).remove();
       update_channels_list();
-      $('#room-list li:last a').click()
+      $('#room-list li:last a').click();
 
       if ($('#room-list li').length == 0) {
         $('#chatbox-header').html("Channel Name");
+        $('#user-list .user-text').remove();
+        $('#user-heading').html("Users (0)");
       }
     }
   };
