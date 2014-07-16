@@ -150,3 +150,7 @@ i {
 .user-image {
   vertical-align: text-top;
 }
+
+p {
+  margin-bottom: 0px !important;
+}
