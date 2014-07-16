@@ -105,6 +105,7 @@ $(document).ready(function() {
       message_body: 'Welcome to Chatter Help!' +
                     '<br>The following commands are available for use:' +
                     '<br>/join &lt;channel&gt; (creates or joins public channel)' +
+                    '<br>/leave &lt;channel&gt; (leaves the channel)' +
                     '<br>/channels (lists all current public channels)' +
                     '<br>/admin &lt;message&gt; (sends a global message if user is an admin)' +
                     '<br>/roll &lt;number&gt; (generates a random number between 1 and number)',
@@ -140,7 +141,7 @@ $(document).ready(function() {
     }, 175);
     setTimeout(function() {
       $('#favicon').attr('href', '<%= asset_path('favicon-chatter.ico') %>');
-    }, 300);
+    }, 250);
   };
 
   function leave_channel(channelName) {
