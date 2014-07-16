@@ -25,3 +25,15 @@ module ApplicationHelper
     [rand(range) + 1, range]
   end
 end
+
+module EmojiHelper
+  def emojify(content)
+    content.to_str.gsub(/:([\w+-]+):/) do |match|
+      if Emoji.names.include?($1)
+        "<img alt=\"#{$1}\" src=\"/images/emoji/#{$1}.png\" style=\"vertical-align:middle\" width=\"20\" height=\"20\""
+      else
+        match
+      end
+    end.html_safe if content.present?
+  end
+end

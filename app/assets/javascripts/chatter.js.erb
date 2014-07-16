@@ -90,7 +90,7 @@ $(document).ready(function() {
     } else if (message != "") {
       dispatcher.trigger('new_message', {
         channel_name: currentRoom,
-        message_body: message.trim()
+        message_body: message
       });
       chatter_image();
     }

@@ -34,6 +34,7 @@ gem 'websocket-rails'
 gem 'font-awesome-rails'
 gem 'fastimage'
 gem 'redcarpet'
+gem 'gemoji'
 
 group :production do
   gem 'rails_12factor'

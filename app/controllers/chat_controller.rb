@@ -1,5 +1,6 @@
 class ChatController < WebsocketRails::BaseController
   include ApplicationHelper
+  include EmojiHelper
 
   def initialize_session
     renderer = Redcarpet::Render::HTML.new(filter_html: true)
@@ -77,10 +78,11 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def new_message
-    response_body = controller_store[:markdown].render(message[:message_body])
-    if current_user.admin && response_body.start_with?('/admin')
-      system_wide_message(:new_message, response_body[7..-1])
-    elsif response_body.start_with?('/roll')
+    response_body = format_message(controller_store[:markdown].render(message[:message_body]))
+    response_body = emojify(response_body)
+    if current_user.admin && response_body.start_with?('<p>/admin')
+      system_wide_message(:new_message, "<p>" + response_body[10..-1])
+    elsif response_body.start_with?('<p>/roll')
       roll = user_roll(response_body)
       action_message(:new_message, message[:channel_name],
                     "#{connection_store[:user][:handle]} rolled a #{roll[0]} (1-#{roll[1]})!")
