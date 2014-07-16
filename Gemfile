@@ -33,6 +33,7 @@ gem 'thin'
 gem 'websocket-rails'
 gem 'font-awesome-rails'
 gem 'fastimage'
+gem 'redcarpet'
 
 group :production do
   gem 'rails_12factor'

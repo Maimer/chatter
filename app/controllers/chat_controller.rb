@@ -3,6 +3,7 @@ class ChatController < WebsocketRails::BaseController
   include ApplicationHelper
 
   def initialize_session
+    connection_store[:markdown] ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML)
   end
 
   def system_wide_message(event, message)
@@ -77,6 +78,7 @@ class ChatController < WebsocketRails::BaseController
 
   def new_message
     response_body = format_message(ERB::Util.html_escape(message[:message_body]))
+    response_body = connection_store[:markdown].render(response_body)
     if current_user.admin && response_body.start_with?('/admin')
       system_wide_message(:new_message, response_body[7..-1])
     elsif response_body.start_with?('/roll')
