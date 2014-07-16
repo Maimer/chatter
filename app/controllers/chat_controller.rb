@@ -1,9 +1,9 @@
 class ChatController < WebsocketRails::BaseController
-  include ActionView::Helpers::SanitizeHelper
   include ApplicationHelper
 
   def initialize_session
-    controller_store[:markdown] ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    renderer = Redcarpet::Render::HTML.new(filter_html: true)
+    controller_store[:markdown] ||= Redcarpet::Markdown.new(renderer)
   end
 
   def system_wide_message(event, message)
@@ -77,8 +77,7 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def new_message
-    response_body = format_message(ERB::Util.html_escape(message[:message_body]))
-    response_body = controller_store[:markdown].render(response_body)
+    response_body = controller_store[:markdown].render(message[:message_body])
     if current_user.admin && response_body.start_with?('/admin')
       system_wide_message(:new_message, response_body[7..-1])
     elsif response_body.start_with?('/roll')

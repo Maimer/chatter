@@ -2,6 +2,8 @@
 
 Created by [Nicholas Lee](https://www.linkedin.com/in/nicky)
 
+Website: [http://sockets-chat.herokuapp.com](http://sockets-chat.herokuapp.com)
+
 Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The application communication channels are implemented through the use of WebSockets, which allow for a full-duplex single socket connection over which messages can be sent between client and server.  Users are authenticated through the use of Devise and the application allows for user created public and private channels as well as other features including inline images, admin commands, and markdown support.
 
 ==========
