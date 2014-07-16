@@ -78,11 +78,14 @@ class ChatController < WebsocketRails::BaseController
   end
 
   def new_message
-    response_body = format_message(controller_store[:markdown].render(message[:message_body]))
+    response_body = controller_store[:markdown].render(message[:message_body])
     response_body = emojify(response_body)
-    if current_user.admin && response_body.start_with?('<p>/admin')
-      system_wide_message(:new_message, "<p>" + response_body[10..-1])
-    elsif response_body.start_with?('<p>/roll')
+    if response_body.start_with?('<p>') && response_body.chomp.end_with?('</p>')
+      response_body = format_message(response_body.chomp[3..-5])
+    end
+    if current_user.admin && response_body.start_with?('/admin')
+      system_wide_message(:new_message, response_body[7..-1])
+    elsif response_body.start_with?('/roll')
       roll = user_roll(response_body)
       action_message(:new_message, message[:channel_name],
                     "#{connection_store[:user][:handle]} rolled a #{roll[0]} (1-#{roll[1]})!")
