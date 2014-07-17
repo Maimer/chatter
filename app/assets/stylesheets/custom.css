@@ -154,3 +154,7 @@ i {
 p {
   margin-bottom: 0px !important;
 }
+
+body {
+  background-color: #BBB !important;
+}

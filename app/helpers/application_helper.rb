@@ -27,13 +27,13 @@ module ApplicationHelper
 end
 
 module EmojiHelper
-  def emojify(content)
-    content.to_str.gsub(/:([\w+-]+):/) do |match|
-      if Emoji.names.include?($1)
-        "<img alt=\"#{$1}\" src=\"/images/emoji/#{$1}.png\" style=\"vertical-align:middle\" width=\"20\" height=\"20\""
-      else
-        match
+  def emojify(message)
+    tokens = message.scan(/:[\w]+:/)
+    tokens.each do |token|
+      if Emoji.names.include?(token[1..-2])
+        message = message.gsub(token, "<img alt=\"#{token[1..-2]}\" src=\"/images/emoji/#{token[1..-2]}.png\" style=\"vertical-align:middle\" width=\"20\" height=\"20\">")
       end
-    end.html_safe if content.present?
+    end
+    message
   end
 end
