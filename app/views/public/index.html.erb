@@ -10,6 +10,14 @@
           </div>
         </div>
       </div>
+      <form id="input-message">
+        <div class="input-group">
+          <input type="text" id="message" class="form-control" placeholder="Message..." autofocus>
+          <span class="input-group-btn">
+            <button id="send" class="btn btn-primary">Send!</button>
+          </span>
+        </div>
+      </form>
     </div>
     <div class="col-md-3">
       <div class="panel panel-primary">
@@ -28,17 +36,12 @@
           <ul id="room-list" class="nav nav-pills nav-stacked" role="tablist"></ul>
         </div>
       </div>
-    </div>
-    <form id="input-message">
-      <div class="col-md-9">
-        <div class="input-group">
-          <input type="text" id="message" class="form-control" placeholder="Message..." autofocus>
-          <span class="input-group-btn">
-            <button id="send" class="btn btn-primary">Send!</button>
-          </span>
-        </div>
+      <div class="credit">
+        <%= link_to 'https://github.com/Maimer', class: "btn btn-default git" do %>
+          <div class="created"><label>Created by Nick Lee</label></div>&nbsp;<i class="fa fa-github"></i>
+        <% end %>
       </div>
-    </form>
+    </div>
   </div>
   <br>
 </div>

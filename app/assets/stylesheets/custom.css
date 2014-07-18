@@ -158,3 +158,23 @@ p {
 body {
   background-color: #CCC !important;
 }
+
+.git label {
+  margin-bottom: -10px;
+}
+
+.git {
+  padding-bottom: 7px !important;
+  border: 1px solid !important;
+  border-color: #428bca !important;
+}
+
+.created {
+  float: left;
+}
+
+.credit {
+  display: block;
+  text-align: center;
+  margin: 0 auto;
+}
