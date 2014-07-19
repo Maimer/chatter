@@ -26,16 +26,20 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 /help (Lists all possible chat commands)
 
-/join <channel> (Creates or joins a new channel)
+/join \<channel\> (Creates or joins a new channel)
 
-/leave <channel> (Leaves an existing channel)
+/leave \<channel\> (Leaves an existing channel)
 
 /channels (Lists all current public channels with users)
 
-/admin <text> (Sends the text to all channels as an Admin message)
+/admin \<text\> (Sends the text to all channels as an Admin message)
 
-/roll <number> (Produces a random number between 1 and give number)
+/roll \<number\> (Produces a random number between 1 and give number)
 
 ==========
 
 ####Chatter Images:
+
+![Example 1]()
+
+![Example 2]()

@@ -10,7 +10,8 @@ $(document).ready(function() {
   dispatcher.on_open = function(data) {
     console.log('Websocket Open');
     create_channel('General');
-    create_channel('Launch');
+    create_channel('Websockets');
+    create_channel('Ruby');
   };
 
   dispatcher.bind('public_channels', public_channels_store);
