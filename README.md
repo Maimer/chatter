@@ -40,6 +40,6 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 ####Chatter Images:
 
-![Example 1]()
+![Example 1](https://raw.githubusercontent.com/Maimer/chatter/master/screenshots/chatter2.png)
 
-![Example 2]()
+![Example 2](https://raw.githubusercontent.com/Maimer/chatter/master/screenshots/chatter1.png)
