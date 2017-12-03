@@ -1,4 +1,4 @@
-#CHATTER
+# CHATTER
 
 Created by [Nicholas Lee](https://www.linkedin.com/in/nicky)
 
@@ -8,7 +8,7 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 ==========
 
-####Gems
+#### Gems
 
 [WebSocket-Rails](https://github.com/websocket-rails): Used to create the websocket server through the use of event machine and to process all incoming and outgoing websocket connections.
 
@@ -22,7 +22,7 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 ==========
 
-####Chat Commands
+#### Chat Commands
 
 /help (Lists all possible chat commands)
 
@@ -38,7 +38,7 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 ==========
 
-####Chatter Images:
+#### Chatter Images:
 
 ![Example 1](https://raw.githubusercontent.com/Maimer/chatter/master/screenshots/chatter2.png)
 
