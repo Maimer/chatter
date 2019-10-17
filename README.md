@@ -6,9 +6,7 @@ Website: [http://sockets-chat.herokuapp.com](http://sockets-chat.herokuapp.com)
 
 Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The application communication channels are implemented through the use of WebSockets, which allow for a full-duplex single socket connection over which messages can be sent between client and server.  Users are authenticated through the use of Devise and the application allows for user created public and private channels as well as other features including inline images, admin commands, emojis, and markdown support.
 
-==========
-
-#### Gems
+## Gems
 
 [WebSocket-Rails](https://github.com/websocket-rails): Used to create the websocket server through the use of event machine and to process all incoming and outgoing websocket connections.
 
@@ -20,9 +18,7 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 [Devise](https://github.com/plataformatec/devise): Used as the user authentication layer for the application.
 
-==========
-
-#### Chat Commands
+## Chat Commands
 
 /help (Lists all possible chat commands)
 
@@ -36,9 +32,7 @@ Chatter is a real-time chat room application built in Rails 4 and Ruby 2.  The a
 
 /roll \<number\> (Produces a random number between 1 and give number)
 
-==========
-
-#### Chatter Images:
+## Chatter Images:
 
 ![Example 1](https://raw.githubusercontent.com/Maimer/chatter/master/screenshots/chatter2.png)
 
